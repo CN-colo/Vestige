@@ -325,6 +325,15 @@ img {
   width: 100%;
 }
 
+/* 表格空数据区域高度约束 */
+.el-table__empty-text {
+  padding: 40px 0;
+}
+
+.el-table__empty-block {
+  min-height: 120px;
+}
+
 .el-table th.el-table__cell {
   background-color: var(--gray-50);
   color: var(--text-primary);

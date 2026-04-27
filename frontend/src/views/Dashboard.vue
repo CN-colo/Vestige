@@ -75,6 +75,8 @@ onUnmounted(() => {
 /* 内容区域 */
 .dashboard-content {
   flex: 1;
+  min-width: 0;  /* 防止 flex 子元素被内容撑大 */
+  overflow-x: hidden;  /* 防止横向溢出 */
   padding: var(--spacing-lg);
   background-color: var(--bg-page);
 }

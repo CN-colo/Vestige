@@ -10,8 +10,11 @@
 
     <!-- 桌面端表格 -->
     <el-table :data="articles" v-loading="loading" stripe class="desktop-table" table-layout="fixed">
-      <el-table-column prop="title" label="标题" min-width="200" />
-      <el-table-column prop="summary" label="摘要" min-width="200" show-overflow-tooltip />
+      <template #empty>
+        <el-empty description="暂无文章" />
+      </template>
+      <el-table-column prop="title" label="标题" min-width="150" />
+      <el-table-column prop="summary" label="摘要" min-width="150" show-overflow-tooltip />
       <el-table-column prop="is_public" label="状态" width="100">
         <template #default="{ row }">
           <el-tag :type="row.is_public ? 'success' : 'info'">
@@ -138,6 +141,12 @@ onMounted(() => {
   padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+}
+
+/* 表格宽度约束 */
+.desktop-table {
+  width: 100%;
+  max-width: 100%;
 }
 
 .page-header {

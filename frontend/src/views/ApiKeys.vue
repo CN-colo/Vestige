@@ -14,8 +14,11 @@
 
     <!-- 桌面端表格 -->
     <el-table :data="keys" v-loading="loading" stripe class="desktop-table" table-layout="fixed">
-      <el-table-column prop="name" label="名称" min-width="150" />
-      <el-table-column prop="permissions" label="权限" min-width="150">
+      <template #empty>
+        <el-empty description="暂无 API Key" />
+      </template>
+      <el-table-column prop="name" label="名称" min-width="120" />
+      <el-table-column prop="permissions" label="权限" min-width="120">
         <template #default="{ row }">
           <el-tag v-for="perm in row.permissions" :key="perm" size="small">
             {{ perm }}
@@ -234,6 +237,12 @@ onMounted(() => {
   padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+}
+
+/* 表格宽度约束 */
+.desktop-table {
+  width: 100%;
+  max-width: 100%;
 }
 
 .page-header {
