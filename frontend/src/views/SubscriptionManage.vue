@@ -164,4 +164,36 @@ const handleToggleSubscribe = async (tag: string) => {
 .popular-tag:hover {
   transform: translateY(-1px);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .subscription-manage-page {
+    padding: var(--spacing-sm);
+  }
+
+  .el-card h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .add-subscription {
+    flex-direction: column;
+  }
+
+  .add-subscription .el-input {
+    width: 100% !important;
+  }
+
+  .popular-tags h3,
+  .my-subscriptions h3 {
+    font-size: 13px;
+  }
+
+  .tag-list {
+    gap: var(--spacing-xs);
+  }
+
+  .popular-tag {
+    font-size: 12px;
+  }
+}
 </style>

@@ -128,4 +128,20 @@ const handleLogin = async () => {
 .footer-links a:hover {
   color: var(--primary-light);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .login-page {
+    min-height: calc(100vh - 60px);
+    padding: var(--spacing-sm);
+  }
+
+  .login-card {
+    width: 100%;
+  }
+
+  .card-header h2 {
+    font-size: var(--font-size-xl);
+  }
+}
 </style>

@@ -408,4 +408,57 @@ function previewCard() {
 .preview-btn:hover {
   transform: translateY(-2px);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .card-content {
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md) 0;
+  }
+
+  .card-avatar .el-avatar {
+    --el-avatar-size: 80px !important;
+  }
+
+  .card-info h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .stats {
+    gap: var(--spacing-lg);
+  }
+
+  .stat-value {
+    font-size: var(--font-size-xl);
+  }
+
+  .share-link .el-input {
+    flex-direction: column;
+  }
+
+  .share-link .el-input__wrapper {
+    width: 100%;
+  }
+
+  .share-link .el-input-group__append {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+  }
+
+  .preview-btn {
+    width: 100%;
+  }
+
+  :deep(.md-editor) {
+    height: 150px !important;
+    font-size: 14px;
+  }
+}
 </style>

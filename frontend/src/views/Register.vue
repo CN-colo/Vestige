@@ -162,4 +162,21 @@ const handleRegister = async () => {
 .footer-links a:hover {
   color: var(--primary-light);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .register-page {
+    min-height: calc(100vh - 60px);
+    padding: var(--spacing-sm);
+    align-items: flex-start;
+  }
+
+  .register-card {
+    width: 100%;
+  }
+
+  .card-header h2 {
+    font-size: var(--font-size-xl);
+  }
+}
 </style>

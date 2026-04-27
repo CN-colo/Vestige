@@ -392,4 +392,87 @@ function goProject(id: number) {
     font-size: var(--font-size-2xl);
   }
 }
+
+/* 手机端增强适配 */
+@media (max-width: 767px) {
+  .card-page {
+    padding: var(--spacing-sm);
+    min-height: calc(100vh - 60px);
+  }
+
+  .card-container {
+    border-radius: var(--radius-lg);
+  }
+
+  .card-wrapper {
+    padding: var(--spacing-sm);
+  }
+
+  .username {
+    font-size: var(--font-size-xl);
+  }
+
+  .avatar-section .el-avatar {
+    --el-avatar-size: 80px !important;
+  }
+
+  .bio-section {
+    padding: var(--spacing-md) 0;
+  }
+
+  .stats-section {
+    padding: var(--spacing-md) 0;
+    gap: var(--spacing-xl);
+  }
+
+  .stat-number {
+    font-size: var(--font-size-xl);
+  }
+
+  .stat-label {
+    font-size: var(--font-size-xs);
+  }
+
+  .articles-section,
+  .projects-section {
+    padding: var(--spacing-md) 0;
+  }
+
+  .articles-section h2,
+  .projects-section h2 {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .item-cover {
+    height: 100px;
+  }
+
+  .item-card h3 {
+    font-size: 13px;
+  }
+
+  .item-summary {
+    font-size: 11px;
+  }
+
+  .item-meta {
+    font-size: 10px;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding-top: var(--spacing-md);
+    text-align: center;
+  }
+
+  .card-footer .el-button {
+    width: 100%;
+  }
+
+  :deep(.md-preview) {
+    font-size: 13px;
+  }
+}
 </style>

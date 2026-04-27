@@ -2,187 +2,252 @@
   <div class="article-editor">
     <div class="editor-header">
       <h2>{{ isEdit ? '编辑文章' : '新建文章' }}</h2>
-      <div class="actions">
-        <el-button @click="handleSave" :loading="saving">保存</el-button>
-        <el-button type="primary" @click="handleSaveAndPublish" :loading="saving">
-          保存并发布
+      <div class="editor-actions">
+        <el-button @click="handleSaveDraft" :loading="saving">
+          <el-icon><DocumentChecked /></el-icon>
+          <span class="btn-text">保存草稿</span>
+        </el-button>
+        <el-button type="primary" @click="handlePublish" :loading="publishing">
+          <el-icon><Promotion /></el-icon>
+          <span class="btn-text">{{ article.is_public ? '更新发布' : '发布' }}</span>
         </el-button>
       </div>
     </div>
 
-    <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="form.title" placeholder="请输入文章标题" />
-      </el-form-item>
+    <div class="editor-form">
+      <el-form :model="article" label-position="top">
+        <el-form-item label="标题">
+          <el-input v-model="article.title" placeholder="请输入文章标题" />
+        </el-form-item>
 
-      <el-form-item label="摘要" prop="summary">
-        <el-input v-model="form.summary" type="textarea" :rows="2" placeholder="请输入文章摘要" />
-      </el-form-item>
+        <el-form-item label="摘要">
+          <el-input
+            v-model="article.summary"
+            type="textarea"
+            :rows="3"
+            placeholder="请输入文章摘要（可选）"
+          />
+        </el-form-item>
 
-      <el-form-item label="封面图片">
-        <el-upload
-          class="cover-uploader"
-          :show-file-list="false"
-          :before-upload="beforeCoverUpload"
-          :http-request="handleCoverUpload"
-        >
-          <img v-if="form.cover_image" :src="form.cover_image" class="cover-preview" />
-          <el-icon v-else class="cover-uploader-icon"><Plus /></el-icon>
-        </el-upload>
-      </el-form-item>
+        <el-form-item label="标签（用逗号分隔）">
+          <el-input v-model="article.tags" placeholder="例如：技术, Vue, 前端" />
+        </el-form-item>
 
-      <el-form-item label="内容" prop="content">
-        <MdEditor
-          v-model="form.content"
-          language="zh-CN"
-          style="height: 400px"
-          :onUploadImg="handleEditorImageUpload"
-        />
-      </el-form-item>
+        <el-form-item label="封面图片">
+          <div class="cover-upload">
+            <el-upload
+              :action="uploadUrl"
+              :headers="uploadHeaders"
+              :show-file-list="false"
+              :on-success="handleCoverSuccess"
+              :before-upload="beforeCoverUpload"
+              accept="image/*"
+            >
+              <div v-if="article.cover_image" class="cover-preview">
+                <img :src="article.cover_image" alt="封面预览" />
+                <div class="cover-actions">
+                  <el-button size="small" @click.stop="removeCover">移除</el-button>
+                </div>
+              </div>
+              <div v-else class="cover-placeholder">
+                <el-icon><Plus /></el-icon>
+                <span>上传封面</span>
+              </div>
+            </el-upload>
+          </div>
+        </el-form-item>
 
-      <el-form-item label="标签">
-        <el-select v-model="form.tags" multiple filterable allow-create placeholder="请输入标签">
-          <el-option v-for="tag in form.tags" :key="tag" :label="tag" :value="tag" />
-        </el-select>
-      </el-form-item>
-    </el-form>
+        <el-form-item label="正文">
+          <MdEditor
+            v-model="article.content"
+            :style="{ height: editorHeight }"
+            :preview="true"
+            :toolbars="editorToolbars"
+            placeholder="请使用 Markdown 格式编写文章内容..."
+          />
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import type { FormInstance, FormRules } from 'element-plus'
-import { useArticleStore } from '@/stores/article'
-import { mediaApi } from '@/api/media'
+import { DocumentChecked, Promotion } from '@element-plus/icons-vue'
 import { MdEditor } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
+import { useArticleStore } from '@/stores/article'
+import { useUserStore } from '@/stores/user'
+import request from '@/api/request'
 
-const router = useRouter()
 const route = useRoute()
+const router = useRouter()
 const articleStore = useArticleStore()
+const userStore = useUserStore()
 
-const formRef = ref<FormInstance>()
-const saving = ref(false)
-const isEdit = ref(false)
+const isEdit = computed(() => !!route.params.id)
+const articleId = computed(() => route.params.id as string)
 
-const form = ref({
+const article = ref({
   title: '',
-  content: '',
-  cover_image: '',
   summary: '',
-  tags: [] as string[]
+  content: '',
+  tags: '',
+  cover_image: ''
 })
 
-const rules: FormRules = {
-  title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
-  content: [{ required: true, message: '请输入内容', trigger: 'blur' }]
+const saving = ref(false)
+const publishing = ref(false)
+
+// 编辑器高度响应式
+const editorHeight = ref('500px')
+
+const updateEditorHeight = () => {
+  const windowHeight = window.innerHeight
+  if (windowHeight < 768) {
+    editorHeight.value = '350px'
+  } else if (windowHeight < 1024) {
+    editorHeight.value = '400px'
+  } else {
+    editorHeight.value = '500px'
+  }
+}
+
+onMounted(() => {
+  updateEditorHeight()
+  window.addEventListener('resize', updateEditorHeight)
+  
+  if (isEdit.value && articleId.value) {
+    loadArticle()
+  }
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateEditorHeight)
+})
+
+// 上传配置
+const uploadUrl = computed(() => `${request.defaults.baseURL}/media/upload`)
+const uploadHeaders = computed(() => ({
+  Authorization: `Bearer ${userStore.token}`
+}))
+
+const editorToolbars = [
+  'bold', 'underline', 'italic', '-',
+  'title', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList', 'orderedList', '-',
+  'codeRow', 'code', 'link', 'image', 'table', '-',
+  'revoke', 'next', 'save', '=', 'preview', 'fullscreen'
+]
+
+const loadArticle = async () => {
+  try {
+    const data = await articleStore.loadArticle(articleId.value)
+    article.value = {
+      title: data.title || '',
+      summary: data.summary || '',
+      content: data.content || '',
+      tags: (data.tags || []).join(', '),
+      cover_image: data.cover_image || ''
+    }
+  } catch (error: any) {
+    ElMessage.error(error.response?.data?.detail || '加载文章失败')
+    router.push('/dashboard/articles')
+  }
 }
 
 const beforeCoverUpload = (file: File) => {
   const isImage = file.type.startsWith('image/')
-  const isLt10M = file.size / 1024 / 1024 < 10
+  const isLt5M = file.size / 1024 / 1024 < 5
 
   if (!isImage) {
     ElMessage.error('只能上传图片文件!')
     return false
   }
-  if (!isLt10M) {
-    ElMessage.error('图片大小不能超过 10MB!')
+  if (!isLt5M) {
+    ElMessage.error('图片大小不能超过 5MB!')
     return false
   }
   return true
 }
 
-const handleCoverUpload = async (options: any) => {
+const handleCoverSuccess = (response: any) => {
+  if (response.url) {
+    article.value.cover_image = response.url
+    ElMessage.success('封面上传成功')
+  }
+}
+
+const removeCover = () => {
+  article.value.cover_image = ''
+}
+
+const handleSaveDraft = async () => {
+  if (!article.value.title) {
+    ElMessage.warning('请输入文章标题')
+    return
+  }
+
+  saving.value = true
   try {
-    const media = await mediaApi.upload(options.file)
-    form.value.cover_image = `/uploads/${media.filename}`
-    ElMessage.success('图片上传成功')
+    const data = {
+      title: article.value.title,
+      summary: article.value.summary,
+      content: article.value.content,
+      tags: article.value.tags.split(',').map(t => t.trim()).filter(Boolean),
+      cover_image: article.value.cover_image,
+      is_public: false
+    }
+
+    if (isEdit.value) {
+      await articleStore.updateArticle(articleId.value, data)
+    } else {
+      await articleStore.createArticle(data)
+    }
+    ElMessage.success('草稿保存成功')
+    router.push('/dashboard/articles')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '上传失败')
+    ElMessage.error(error.response?.data?.detail || '保存失败')
+  } finally {
+    saving.value = false
   }
 }
 
-// Handle image upload in markdown editor
-const handleEditorImageUpload = async (files: File[], callback: (urls: string[]) => void) => {
+const handlePublish = async () => {
+  if (!article.value.title) {
+    ElMessage.warning('请输入文章标题')
+    return
+  }
+  if (!article.value.content) {
+    ElMessage.warning('请输入文章内容')
+    return
+  }
+
+  publishing.value = true
   try {
-    const urls: string[] = []
-    for (const file of files) {
-      const media = await mediaApi.upload(file)
-      urls.push(`/uploads/${media.filename}`)
+    const data = {
+      title: article.value.title,
+      summary: article.value.summary,
+      content: article.value.content,
+      tags: article.value.tags.split(',').map(t => t.trim()).filter(Boolean),
+      cover_image: article.value.cover_image,
+      is_public: true
     }
-    callback(urls)
-    ElMessage.success('图片上传成功')
+
+    if (isEdit.value) {
+      await articleStore.updateArticle(articleId.value, data)
+    } else {
+      await articleStore.createArticle(data)
+    }
+    ElMessage.success('发布成功')
+    router.push('/dashboard/articles')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '上传失败')
+    ElMessage.error(error.response?.data?.detail || '发布失败')
+  } finally {
+    publishing.value = false
   }
 }
-
-const handleSave = async () => {
-  if (!formRef.value) return
-
-  await formRef.value.validate(async (valid) => {
-    if (valid) {
-      saving.value = true
-      try {
-        if (isEdit.value) {
-          await articleStore.updateArticle(Number(route.params.id), form.value)
-        } else {
-          await articleStore.createArticle(form.value)
-        }
-        ElMessage.success('保存成功')
-        router.push('/dashboard/articles')
-      } catch (error: any) {
-        ElMessage.error(error.response?.data?.detail || '保存失败')
-      } finally {
-        saving.value = false
-      }
-    }
-  })
-}
-
-const handleSaveAndPublish = async () => {
-  if (!formRef.value) return
-
-  await formRef.value.validate(async (valid) => {
-    if (valid) {
-      saving.value = true
-      try {
-        let article: any
-        if (isEdit.value) {
-          article = await articleStore.updateArticle(Number(route.params.id), form.value)
-        } else {
-          article = await articleStore.createArticle(form.value)
-        }
-        await articleStore.publishArticle(article.id)
-        ElMessage.success('保存并发布成功')
-        router.push('/dashboard/articles')
-      } catch (error: any) {
-        ElMessage.error(error.response?.data?.detail || '操作失败')
-      } finally {
-        saving.value = false
-      }
-    }
-  })
-}
-
-onMounted(async () => {
-  if (route.params.id) {
-    isEdit.value = true
-    await articleStore.loadArticle(Number(route.params.id))
-    if (articleStore.currentArticle) {
-      form.value = {
-        title: articleStore.currentArticle.title,
-        content: articleStore.currentArticle.content,
-        cover_image: articleStore.currentArticle.cover_image || '',
-        summary: articleStore.currentArticle.summary || '',
-        tags: articleStore.currentArticle.tags || []
-      }
-    }
-  }
-})
 </script>
 
 <style scoped>
@@ -209,45 +274,113 @@ onMounted(async () => {
   color: var(--text-primary);
 }
 
-.actions {
+.editor-actions {
   display: flex;
   gap: var(--spacing-sm);
 }
 
-.cover-uploader {
-  width: 200px;
-  height: 150px;
-  border: 2px dashed var(--border-base);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  overflow: hidden;
-  background: var(--gray-50);
-  transition: all var(--transition-fast);
+.editor-form {
+  max-width: 100%;
 }
 
-.cover-uploader:hover {
-  border-color: var(--primary-color);
-  background: var(--primary-lighter);
+.cover-upload {
+  width: 100%;
 }
 
 .cover-preview {
+  position: relative;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 300px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
-.cover-uploader-icon {
-  font-size: var(--font-size-2xl);
-  color: var(--text-placeholder);
+.cover-preview img {
   width: 100%;
-  height: 100%;
+  display: block;
+}
+
+.cover-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-xs);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
-  transition: color var(--transition-fast);
 }
 
-.cover-uploader:hover .cover-uploader-icon {
+.cover-placeholder {
+  width: 100%;
+  max-width: 300px;
+  height: 150px;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.cover-placeholder:hover {
+  border-color: var(--primary-color);
   color: var(--primary-color);
+}
+
+.cover-placeholder .el-icon {
+  font-size: 24px;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .article-editor {
+    padding: var(--spacing-sm);
+  }
+
+  .editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+  }
+
+  .editor-header h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .editor-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .btn-text {
+    display: none;
+  }
+
+  .cover-preview,
+  .cover-placeholder {
+    max-width: 100%;
+  }
+
+  .cover-placeholder {
+    height: 120px;
+  }
+
+  :deep(.md-editor) {
+    font-size: 14px;
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .article-editor {
+    padding: var(--spacing-md);
+  }
 }
 </style>

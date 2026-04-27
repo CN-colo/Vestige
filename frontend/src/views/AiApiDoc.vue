@@ -319,4 +319,58 @@ article = client.create_article("AI文章", "内容...", tags=["ai"])
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-card);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .api-doc-page {
+    padding: var(--spacing-sm);
+  }
+
+  .doc-header {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .doc-header h1 {
+    font-size: var(--font-size-lg);
+  }
+
+  .doc-header p {
+    font-size: var(--font-size-sm);
+  }
+
+  .doc-content {
+    padding: var(--spacing-sm);
+  }
+
+  :deep(.md-preview) {
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  :deep(pre) {
+    font-size: 12px;
+    overflow-x: auto;
+  }
+
+  :deep(table) {
+    display: block;
+    overflow-x: auto;
+  }
+
+  :deep(h2) {
+    font-size: 16px;
+  }
+
+  :deep(h3) {
+    font-size: 15px;
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .api-doc-page {
+    padding: var(--spacing-md);
+    max-width: 100%;
+  }
+}
 </style>

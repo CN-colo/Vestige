@@ -219,4 +219,62 @@ onMounted(async () => {
 .tags {
   margin-top: var(--spacing-md);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .project-detail-page {
+    padding: var(--spacing-sm);
+  }
+
+  .project-header h1 {
+    font-size: var(--font-size-xl);
+    line-height: 1.3;
+  }
+
+  .meta {
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+
+  .tech-stack {
+    margin-top: var(--spacing-xs);
+  }
+
+  .actions {
+    flex-wrap: wrap;
+  }
+
+  .cover-image {
+    max-height: 200px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-description {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-url {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .tags {
+    margin-top: var(--spacing-sm);
+  }
+
+  :deep(.md-preview) {
+    font-size: 14px;
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .project-detail-page {
+    padding: var(--spacing-md);
+  }
+
+  .project-header h1 {
+    font-size: var(--font-size-2xl);
+  }
+}
 </style>

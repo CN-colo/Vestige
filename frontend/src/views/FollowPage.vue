@@ -186,4 +186,38 @@ onMounted(() => {
 .user-action {
   margin-top: var(--spacing-sm);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .follow-page {
+    padding: var(--spacing-sm);
+  }
+
+  .user-card {
+    padding: var(--spacing-md);
+  }
+
+  .user-card .el-avatar {
+    --el-avatar-size: 40px !important;
+  }
+
+  .user-name {
+    font-size: 15px;
+  }
+
+  .user-bio {
+    font-size: 12px;
+  }
+
+  .user-stats {
+    font-size: 11px;
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .follow-page {
+    padding: var(--spacing-md);
+  }
+}
 </style>

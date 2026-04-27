@@ -216,4 +216,35 @@ onMounted(() => {
 .avatar-uploader .el-upload:hover .avatar-uploader-icon {
   color: var(--primary-color);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .settings-page {
+    padding: var(--spacing-sm);
+    max-width: 100%;
+  }
+
+  .page-header {
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+  }
+
+  .page-header h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .avatar-uploader .el-upload {
+    width: 80px;
+    height: 80px;
+  }
+
+  .avatar-uploader-icon {
+    font-size: var(--font-size-xl);
+  }
+
+  :deep(.md-editor) {
+    height: 200px !important;
+    font-size: 14px;
+  }
+}
 </style>

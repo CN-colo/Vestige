@@ -191,4 +191,54 @@ onMounted(async () => {
 .article-content {
   margin-top: var(--spacing-lg);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .article-detail-page {
+    padding: var(--spacing-sm);
+  }
+
+  .article-header h1 {
+    font-size: var(--font-size-xl);
+    line-height: 1.3;
+  }
+
+  .meta {
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+
+  .tags {
+    margin-top: var(--spacing-xs);
+  }
+
+  .actions {
+    flex-wrap: wrap;
+  }
+
+  .cover-image {
+    max-height: 200px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .article-content {
+    margin-top: var(--spacing-md);
+  }
+
+  :deep(.md-preview) {
+    font-size: 14px;
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .article-detail-page {
+    padding: var(--spacing-md);
+  }
+
+  .article-header h1 {
+    font-size: var(--font-size-2xl);
+  }
+}
 </style>

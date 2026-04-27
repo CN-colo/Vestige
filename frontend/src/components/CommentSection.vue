@@ -354,4 +354,71 @@ onUnmounted(() => {
   gap: 10px;
   margin-bottom: 15px;
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .comment-section {
+    margin-top: 10px;
+  }
+
+  .comment-title {
+    margin: 10px 0 10px 0;
+    font-size: var(--font-size-base);
+  }
+
+  .comment-form {
+    margin-bottom: 15px;
+  }
+
+  .comment-item {
+    gap: 8px;
+    margin-bottom: 15px;
+  }
+
+  .comment-avatar .el-avatar {
+    --el-avatar-size: 32px !important;
+  }
+
+  .comment-header {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .username {
+    font-size: 14px;
+  }
+
+  .date {
+    font-size: 11px;
+  }
+
+  .comment-content {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .comment-actions {
+    flex-wrap: wrap;
+  }
+
+  .reply-form {
+    margin: 8px 0;
+    padding-left: 5px;
+  }
+
+  .replies {
+    margin-top: 10px;
+    padding-left: 10px;
+  }
+
+  .reply-item {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .reply-item .comment-avatar .el-avatar {
+    --el-avatar-size: 24px !important;
+  }
+}
 </style>

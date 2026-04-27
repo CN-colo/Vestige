@@ -4,7 +4,7 @@
       <h2>API Keys 管理</h2>
       <el-button type="primary" @click="showCreateDialog">
         <el-icon><Plus /></el-icon>
-        创建 Key
+        <span class="btn-text">创建 Key</span>
       </el-button>
     </div>
 
@@ -12,7 +12,8 @@
       API Keys 允许外部应用（如 AI）访问您的公开域数据。请妥善保管您的 Key。
     </el-alert>
 
-    <el-table :data="keys" v-loading="loading" stripe>
+    <!-- 桌面端表格 -->
+    <el-table :data="keys" v-loading="loading" stripe class="desktop-table">
       <el-table-column prop="name" label="名称" min-width="150" />
       <el-table-column prop="permissions" label="权限" min-width="150">
         <template #default="{ row }">
@@ -54,6 +55,36 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- 移动端卡片列表 -->
+    <div class="mobile-card-list" v-loading="loading">
+      <div v-for="key in keys" :key="key.id" class="key-card">
+        <div class="card-header">
+          <span class="key-name">{{ key.name }}</span>
+          <el-tag :type="key.is_active ? 'success' : 'danger'" size="small">
+            {{ key.is_active ? '活跃' : '已禁用' }}
+          </el-tag>
+        </div>
+        <div class="card-permissions">
+          <el-tag v-for="perm in key.permissions" :key="perm" size="small" class="perm-tag">
+            {{ perm }}
+          </el-tag>
+        </div>
+        <div class="card-meta">
+          <span>最后使用: {{ key.last_used_at ? formatDate(key.last_used_at) : '从未使用' }}</span>
+          <span>过期: {{ key.expires_at ? formatDate(key.expires_at) : '永不过期' }}</span>
+        </div>
+        <div class="card-actions">
+          <el-button size="small" @click="handleToggleActive(key)">
+            {{ key.is_active ? '禁用' : '启用' }}
+          </el-button>
+          <el-button size="small" type="danger" @click="handleDelete(key)">
+            删除
+          </el-button>
+        </div>
+      </div>
+      <el-empty v-if="!loading && keys.length === 0" description="暂无 API Key" />
+    </div>
 
     <!-- Create Dialog -->
     <el-dialog v-model="createDialogVisible" title="创建 API Key" width="400px">
@@ -219,5 +250,86 @@ onMounted(() => {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
+}
+
+/* 移动端卡片列表默认隐藏 */
+.mobile-card-list {
+  display: none;
+}
+
+.key-card {
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-sm);
+  background: var(--bg-card);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+.key-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.card-permissions {
+  margin-bottom: var(--spacing-xs);
+}
+
+.perm-tag {
+  margin-right: var(--spacing-xs);
+}
+
+.card-meta {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.card-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .api-keys-page {
+    padding: var(--spacing-sm);
+  }
+
+  .page-header {
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+  }
+
+  .page-header h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .btn-text {
+    display: none;
+  }
+
+  /* 隐藏表格，显示卡片 */
+  .desktop-table {
+    display: none;
+  }
+
+  .mobile-card-list {
+    display: block;
+  }
+
+  .el-dialog {
+    width: 95vw !important;
+    max-width: 95vw;
+  }
 }
 </style>

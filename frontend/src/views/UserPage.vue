@@ -218,4 +218,66 @@ const onFollowChange = (isFollowing: boolean) => {
   color: var(--text-muted);
   font-size: var(--font-size-xs);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .user-page {
+    padding: var(--spacing-sm);
+  }
+
+  .user-header {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .user-actions {
+    margin-left: 0;
+    margin-top: var(--spacing-sm);
+  }
+
+  .user-info h2 {
+    font-size: var(--font-size-lg);
+    text-align: center;
+  }
+
+  .user-info .bio,
+  .user-info .bio-wrapper {
+    text-align: center;
+  }
+
+  .user-info .stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
+  }
+
+  .user-info .stats span {
+    margin-right: 0;
+  }
+
+  .el-tabs {
+    margin-top: var(--spacing-md);
+  }
+
+  .content-card {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .content-card h3 {
+    font-size: 15px;
+  }
+
+  .content-card p {
+    font-size: 13px;
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .user-page {
+    padding: var(--spacing-md);
+  }
+}
 </style>

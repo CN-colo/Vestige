@@ -224,4 +224,54 @@ const handleUnsubscribe = async (tag: string) => {
   gap: var(--spacing-xs);
   flex-wrap: wrap;
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .subscription-feed-page {
+    padding: var(--spacing-sm);
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .page-header h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .subscribed-tags {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .subscribed-tags .label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .content-card {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .card-cover {
+    height: 120px;
+  }
+
+  .content-card h3 {
+    font-size: 15px;
+  }
+
+  .content-card p {
+    font-size: 13px;
+  }
+
+  .card-meta {
+    font-size: 11px;
+  }
+
+  .card-tags .el-tag {
+    font-size: 11px;
+  }
+}
 </style>

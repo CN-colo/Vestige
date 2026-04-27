@@ -203,4 +203,53 @@ onMounted(() => {
   align-items: center;
   gap: var(--spacing-xs);
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .dashboard-favorites {
+    padding: var(--spacing-sm);
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+  }
+
+  .page-header h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .favorite-item {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+  }
+
+  .favorite-content {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .cover-image {
+    width: 100%;
+    height: 120px;
+  }
+
+  .favorite-title {
+    font-size: 15px;
+  }
+
+  .favorite-desc {
+    font-size: 13px;
+  }
+
+  .favorite-meta {
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    font-size: 11px;
+  }
+}
 </style>

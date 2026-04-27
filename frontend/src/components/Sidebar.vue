@@ -86,4 +86,24 @@ const activeMenu = computed(() => route.path)
   font-size: 18px;
   margin-right: var(--spacing-sm);
 }
+
+/* 手机端适配 */
+@media (max-width: 1023px) {
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    padding: var(--spacing-sm) 0;
+  }
+
+  .sidebar-menu .el-menu-item {
+    height: 48px;
+    line-height: 48px;
+    margin: 2px var(--spacing-xs);
+    font-size: 15px;
+  }
+
+  .sidebar-menu .el-menu-item .el-icon {
+    font-size: 20px;
+  }
+}
 </style>

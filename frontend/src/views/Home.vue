@@ -369,4 +369,106 @@ onMounted(() => {
   justify-content: center;
   margin: var(--spacing-xl) 0;
 }
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+  .home-page {
+    padding: var(--spacing-sm);
+  }
+
+  .page-header {
+    margin-bottom: var(--spacing-md);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .header-left h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .filter-section {
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .search-input {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .type-filter {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* 标签筛选区域在移动端可折叠 */
+  .tag-filter {
+    display: none;
+  }
+
+  /* 显示前几个标签 */
+  .tag-filter-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .tag-item {
+    font-size: 12px;
+  }
+
+  .cover-image {
+    height: 120px;
+  }
+
+  .card-content {
+    padding: var(--spacing-sm);
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  .summary {
+    font-size: 13px;
+    -webkit-line-clamp: 1;
+  }
+
+  .meta {
+    font-size: 12px;
+  }
+
+  .content-tag {
+    font-size: 11px;
+  }
+
+  .pagination-section {
+    margin: var(--spacing-md) 0;
+  }
+
+  .pagination-section :deep(.el-pagination) {
+    .el-pagination__jump,
+    .el-pagination__total {
+      display: none;
+    }
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .home-page {
+    padding: var(--spacing-md);
+  }
+
+  .search-input {
+    max-width: 300px;
+  }
+}
+
+/* 大屏标签筛选显示 */
+@media (min-width: 768px) {
+  .tag-filter {
+    display: flex;
+  }
+}
 </style>

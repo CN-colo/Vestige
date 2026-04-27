@@ -1,0 +1,110 @@
+:root {
+  /* 主色系 - 现代蓝色调 */
+  --primary-color: #165DFF;           /* 品牌主色 */
+  --primary-light: #4080FF;           /* 主色浅色变体 */
+  --primary-lighter: #E8F3FF;         /* 主色超浅背景 */
+  --primary-dark: #0E42D2;            /* 主色深色变体 */
+
+  /* 功能色 */
+  --success-color: #00B42A;
+  --success-lighter: #E8FFEA;
+  --warning-color: #FF7D00;
+  --warning-lighter: #FFF7E8;
+  --danger-color: #F53F3F;
+  --danger-lighter: #FFECE8;
+  --info-color: #165DFF;
+  --info-lighter: #E8F3FF;
+
+  /* 中性色 - 灰度系统 */
+  --gray-50: #F7F8FA;
+  --gray-100: #F2F3F5;
+  --gray-200: #E5E6EB;
+  --gray-300: #C9CDD4;
+  --gray-400: #A9AEB8;
+  --gray-500: #86909C;
+  --gray-600: #6B7785;
+  --gray-700: #4E5969;
+  --gray-800: #272E3B;
+  --gray-900: #1D2129;
+
+  /* 背景色 */
+  --bg-page: var(--gray-50);
+  --bg-card: #FFFFFF;
+  --bg-elevated: #FFFFFF;
+
+  /* 文字色 */
+  --text-primary: var(--gray-900);
+  --text-secondary: var(--gray-600);
+  --text-muted: var(--gray-500);
+  --text-placeholder: var(--gray-400);
+
+  /* 边框色 */
+  --border-light: var(--gray-100);
+  --border-base: var(--gray-200);
+  --border-dark: var(--gray-300);
+
+  /* 圆角系统 */
+  --radius-sm: 6px;      /* 小元素：标签、小按钮 */
+  --radius-md: 8px;      /* 中等元素：按钮、输入框 */
+  --radius-lg: 12px;     /* 大元素：卡片 */
+  --radius-xl: 16px;     /* 超大元素：弹窗、抽屉 */
+  --radius-full: 9999px; /* 圆形 */
+
+  /* 阴影系统 - 轻量化 */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.1);
+  --shadow-focus: 0 0 0 3px var(--primary-lighter);
+
+  /* 间距系统 */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* 过渡动效 */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.35s ease;
+
+  /* 字体 */
+  --font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* 字号 */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+
+  /* 字重 */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* 行高 */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* 布局尺寸 */
+  --navbar-height: 60px;
+  --sidebar-width: 220px;
+  --content-max-width: 1200px;
+  --content-max-width-narrow: 800px;
+  --content-max-width-small: 600px;
+
+  /* 响应式断点 */
+  --breakpoint-xs: 480px;   /* 手机竖屏 */
+  --breakpoint-sm: 768px;   /* 平板竖屏/手机横屏 */
+  --breakpoint-md: 1024px;  /* 平板横屏/小桌面 */
+  --breakpoint-lg: 1280px;  /* 桌面 */
+}
