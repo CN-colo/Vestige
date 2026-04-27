@@ -13,7 +13,7 @@
     </el-alert>
 
     <!-- 桌面端表格 -->
-    <el-table :data="keys" v-loading="loading" stripe class="desktop-table">
+    <el-table :data="keys" v-loading="loading" stripe class="desktop-table" table-layout="fixed">
       <el-table-column prop="name" label="名称" min-width="150" />
       <el-table-column prop="permissions" label="权限" min-width="150">
         <template #default="{ row }">

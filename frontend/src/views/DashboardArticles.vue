@@ -9,7 +9,7 @@
     </div>
 
     <!-- 桌面端表格 -->
-    <el-table :data="articles" v-loading="loading" stripe class="desktop-table">
+    <el-table :data="articles" v-loading="loading" stripe class="desktop-table" table-layout="fixed">
       <el-table-column prop="title" label="标题" min-width="200" />
       <el-table-column prop="summary" label="摘要" min-width="200" show-overflow-tooltip />
       <el-table-column prop="is_public" label="状态" width="100">

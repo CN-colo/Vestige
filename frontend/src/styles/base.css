@@ -322,6 +322,7 @@ img {
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-light);
   overflow: hidden;
+  width: 100%;
 }
 
 .el-table th.el-table__cell {
