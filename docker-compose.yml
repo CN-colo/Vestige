@@ -3,6 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/vestige-backend:latest  # 加这行
     container_name: vestige-backend
     restart: unless-stopped
     environment:
@@ -26,6 +27,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/vestige-frontend:latest  # 加这行
     container_name: vestige-frontend
     restart: unless-stopped
     ports:
