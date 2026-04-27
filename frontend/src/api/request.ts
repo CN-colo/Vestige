@@ -1,7 +1,16 @@
 import axios from 'axios'
-import type { AxiosInstance } from 'axios'
+import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { useUserStore } from '@/stores/user'
 import router from '@/router'
+
+// 自定义请求接口，返回类型是 T 而不是 AxiosResponse<T>
+interface CustomAxiosInstance {
+  get<T>(url: string, config?: AxiosRequestConfig): Promise<T>
+  post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>
+  put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>
+  delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>
+  defaults: AxiosInstance['defaults']
+}
 
 const request: AxiosInstance = axios.create({
   baseURL: '/api',
@@ -44,4 +53,5 @@ request.interceptors.response.use(
   }
 )
 
-export default request
+// 导出为 CustomAxiosInstance 类型以获得正确的返回类型
+export default request as CustomAxiosInstance

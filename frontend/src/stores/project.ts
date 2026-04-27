@@ -19,10 +19,12 @@ export const useProjectStore = defineStore('project', () => {
   }
 
   // Load single project
-  const loadProject = async (id: number) => {
+  const loadProject = async (id: number | string) => {
     loading.value = true
     try {
-      currentProject.value = await projectApi.get(id)
+      const numericId = typeof id === 'string' ? parseInt(id, 10) : id
+      currentProject.value = await projectApi.get(numericId)
+      return currentProject.value
     } finally {
       loading.value = false
     }
@@ -36,9 +38,10 @@ export const useProjectStore = defineStore('project', () => {
   }
 
   // Update project
-  const updateProject = async (id: number, data: ProjectUpdate) => {
-    const project = await projectApi.update(id, data)
-    const index = projects.value.findIndex(p => p.id === id)
+  const updateProject = async (id: number | string, data: ProjectUpdate) => {
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id
+    const project = await projectApi.update(numericId, data)
+    const index = projects.value.findIndex(p => p.id === numericId)
     if (index !== -1) {
       projects.value[index] = project
     }

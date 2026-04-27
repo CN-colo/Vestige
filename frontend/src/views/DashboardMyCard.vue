@@ -189,13 +189,14 @@ async function loadUserInfo() {
   }
 }
 
-async function handleCardEnabledChange(value: boolean) {
+async function handleCardEnabledChange(value: string | number | boolean) {
+  const boolValue = Boolean(value)
   try {
-    await authApi.updateMe({ card_enabled: value })
-    ElMessage.success(value ? '名片分享已开启' : '名片分享已关闭')
+    await authApi.updateMe({ card_enabled: boolValue })
+    ElMessage.success(boolValue ? '名片分享已开启' : '名片分享已关闭')
   } catch (error) {
     ElMessage.error('更新失败')
-    cardEnabled.value = !value
+    cardEnabled.value = !boolValue
   }
 }
 

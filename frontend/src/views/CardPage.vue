@@ -154,7 +154,7 @@ onMounted(async () => {
 async function loadCard() {
   loading.value = true
   try {
-    const response = await request.get(`/public/card/${route.params.id}`)
+    const response = await request.get<CardData>(`/public/card/${route.params.id}`)
     cardData.value = response
   } catch (error: any) {
     if (error.response?.status === 403) {

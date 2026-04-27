@@ -92,6 +92,7 @@ export interface Project {
   user_id: number
   name: string
   description: string
+  content: string
   url?: string
   cover_image?: string
   tags?: string[]
@@ -108,6 +109,7 @@ export interface Project {
 export interface ProjectCreate {
   name: string
   description: string
+  content?: string
   url?: string
   cover_image?: string
   tags?: string[]
@@ -117,6 +119,7 @@ export interface ProjectCreate {
 export interface ProjectUpdate {
   name?: string
   description?: string
+  content?: string
   url?: string
   cover_image?: string
   tags?: string[]

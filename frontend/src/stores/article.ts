@@ -20,10 +20,12 @@ export const useArticleStore = defineStore('article', () => {
   }
 
   // Load single article
-  const loadArticle = async (id: number) => {
+  const loadArticle = async (id: number | string) => {
     loading.value = true
     try {
-      currentArticle.value = await articleApi.get(id)
+      const numericId = typeof id === 'string' ? parseInt(id, 10) : id
+      currentArticle.value = await articleApi.get(numericId)
+      return currentArticle.value
     } finally {
       loading.value = false
     }
@@ -37,9 +39,10 @@ export const useArticleStore = defineStore('article', () => {
   }
 
   // Update article
-  const updateArticle = async (id: number, data: ArticleUpdate) => {
-    const article = await articleApi.update(id, data)
-    const index = articles.value.findIndex(a => a.id === id)
+  const updateArticle = async (id: number | string, data: ArticleUpdate) => {
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id
+    const article = await articleApi.update(numericId, data)
+    const index = articles.value.findIndex(a => a.id === numericId)
     if (index !== -1) {
       articles.value[index] = article
     }

@@ -76,7 +76,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { DocumentChecked, Promotion } from '@element-plus/icons-vue'
-import { MdEditor } from 'md-editor-v3'
+import { MdEditor, ToolbarNames } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import { useArticleStore } from '@/stores/article'
 import { useUserStore } from '@/stores/user'
@@ -95,7 +95,8 @@ const article = ref({
   summary: '',
   content: '',
   tags: '',
-  cover_image: ''
+  cover_image: '',
+  is_public: false
 })
 
 const saving = ref(false)
@@ -134,7 +135,7 @@ const uploadHeaders = computed(() => ({
   Authorization: `Bearer ${userStore.token}`
 }))
 
-const editorToolbars = [
+const editorToolbars: ToolbarNames[] = [
   'bold', 'underline', 'italic', '-',
   'title', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList', 'orderedList', '-',
   'codeRow', 'code', 'link', 'image', 'table', '-',
@@ -149,7 +150,8 @@ const loadArticle = async () => {
       summary: data.summary || '',
       content: data.content || '',
       tags: (data.tags || []).join(', '),
-      cover_image: data.cover_image || ''
+      cover_image: data.cover_image || '',
+      is_public: data.is_public ?? false
     }
   } catch (error: any) {
     ElMessage.error(error.response?.data?.detail || '加载文章失败')

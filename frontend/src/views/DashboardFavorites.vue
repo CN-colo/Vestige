@@ -21,7 +21,7 @@
           />
           <div class="favorite-info">
             <div class="favorite-type">
-              <el-tag size="small" :type="favorite.target_type === 'article' ? '' : 'success'">
+              <el-tag size="small" :type="favorite.target_type === 'article' ? 'primary' : 'success'">
                 {{ favorite.target_type === 'article' ? '文章' : '作品' }}
               </el-tag>
             </div>
