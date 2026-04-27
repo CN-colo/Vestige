@@ -1,0 +1,39 @@
+services:
+  backend:
+    image: ghcr.io/cn-colo/vestige-backend:latest
+    container_name: vestige-backend
+    restart: unless-stopped
+    environment:
+      - SECRET_KEY=this-is-a-secret-key-in-production
+      - DATABASE_URL=sqlite:////app/data/vestige.db
+      - UPLOAD_DIR=/app/uploads
+    volumes:
+      - vestige-data:/app/data
+      - vestige-uploads:/app/uploads
+    networks:
+      - vestige-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/api/public/articles')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    image: ghcr.io/cn-colo/vestige-frontend:latest
+    container_name: vestige-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - vestige-network
+
+volumes:
+  vestige-data:
+  vestige-uploads:
+
+networks:
+  vestige-network:
