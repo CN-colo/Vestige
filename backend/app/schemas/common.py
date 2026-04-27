@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
 from typing import Optional, List, Any
 from datetime import datetime
 
@@ -19,6 +19,11 @@ class MediaResponse(BaseModel):
     file_size: int
     mime_type: str
     created_at: datetime
+
+    @computed_field
+    @property
+    def url(self) -> str:
+        return f"/uploads/{self.filename}"
 
     class Config:
         from_attributes = True
