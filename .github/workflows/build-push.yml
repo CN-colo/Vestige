@@ -9,9 +9,6 @@ permissions:
   packages: write
   contents: read
 
-env:
-  IMAGE_OWNER: ${{ lower(github.repository_owner) }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,8 +26,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push all images
-        env:
-          GITHUB_REPOSITORY_OWNER: ${{ env.IMAGE_OWNER }}
         run: |
+          export IMAGE_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           docker compose build
           docker compose push
