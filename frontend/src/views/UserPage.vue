@@ -124,13 +124,20 @@ const onFollowChange = (isFollowing: boolean) => {
 
 <style scoped>
 .user-page {
-  max-width: 800px;
+  max-width: var(--content-max-width-narrow);
   margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+.el-card {
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-card);
 }
 
 .user-header {
   display: flex;
-  gap: 20px;
+  gap: var(--spacing-lg);
   align-items: center;
 }
 
@@ -140,15 +147,19 @@ const onFollowChange = (isFollowing: boolean) => {
 
 .user-info h2 {
   margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .user-info .bio {
-  color: var(--el-text-color-secondary);
-  margin: 10px 0;
+  color: var(--text-secondary);
+  margin: var(--spacing-sm) 0;
+  font-size: var(--font-size-sm);
 }
 
 .user-info .bio-wrapper {
-  margin: 10px 0;
+  margin: var(--spacing-sm) 0;
 }
 
 .user-info .bio-preview {
@@ -156,28 +167,46 @@ const onFollowChange = (isFollowing: boolean) => {
 }
 
 .user-info .stats {
-  color: var(--el-text-color-secondary);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .user-info .stats span {
-  margin-right: 15px;
+  margin-right: var(--spacing-md);
+}
+
+.el-tabs {
+  margin-top: var(--spacing-lg);
 }
 
 .content-card {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
   cursor: pointer;
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-normal);
+}
+
+.content-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
 }
 
 .content-card h3 {
-  margin: 0 0 10px 0;
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .content-card p {
-  color: var(--el-text-color-secondary);
-  margin: 0 0 10px 0;
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: var(--font-size-sm);
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -186,7 +215,7 @@ const onFollowChange = (isFollowing: boolean) => {
 }
 
 .content-card .meta {
-  color: var(--el-text-color-secondary);
-  font-size: 12px;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
 }
 </style>

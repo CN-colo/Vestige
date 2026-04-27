@@ -15,18 +15,18 @@ import Sidebar from '@/components/Sidebar.vue'
 
 <style scoped>
 .dashboard-page {
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
 }
 
 .dashboard-layout {
   display: flex;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - var(--navbar-height));
 }
 
 .dashboard-content {
   flex: 1;
-  padding: 20px;
-  background-color: #f5f7fa;
+  padding: var(--spacing-lg);
+  background-color: var(--bg-page);
 }
 </style>

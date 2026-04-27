@@ -133,46 +133,57 @@ onMounted(() => {
 
 <style scoped>
 .follow-page {
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
+  padding: var(--spacing-lg);
 }
 
 .user-card {
   text-align: center;
-  padding: 20px;
+  padding: var(--spacing-lg);
   cursor: pointer;
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-normal);
+}
+
+.user-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
 }
 
 .user-card .el-avatar {
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .user-name {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-primary);
 }
 
 .user-bio {
-  color: var(--el-text-color-secondary);
-  font-size: 12px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .user-stats {
-  color: var(--el-text-color-secondary);
-  font-size: 12px;
-  margin-bottom: 10px;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--spacing-sm);
 }
 
 .user-stats span {
-  margin: 0 5px;
+  margin: 0 var(--spacing-xs);
 }
 
 .user-action {
-  margin-top: 10px;
+  margin-top: var(--spacing-sm);
 }
 </style>

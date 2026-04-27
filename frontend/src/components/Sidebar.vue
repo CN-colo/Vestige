@@ -52,16 +52,38 @@ const activeMenu = computed(() => route.path)
 
 <style scoped>
 .sidebar {
-  width: 200px;
-  background-color: #fff;
-  border-right: 1px solid var(--el-border-color);
+  width: var(--sidebar-width);
+  background-color: var(--bg-card);
+  border-right: 1px solid var(--border-light);
+  padding: var(--spacing-md) 0;
 }
 
 .sidebar-menu {
   border-right: none;
+  background-color: transparent;
 }
 
 .sidebar-menu .el-menu-item {
-  height: 50px;
+  height: 44px;
+  line-height: 44px;
+  margin: 4px var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+}
+
+.sidebar-menu .el-menu-item:hover {
+  background-color: var(--gray-50);
+}
+
+.sidebar-menu .el-menu-item.is-active {
+  background-color: var(--primary-lighter);
+  color: var(--primary-color);
+}
+
+.sidebar-menu .el-menu-item .el-icon {
+  font-size: 18px;
+  margin-right: var(--spacing-sm);
 }
 </style>

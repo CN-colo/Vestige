@@ -126,41 +126,57 @@ onMounted(async () => {
 
 <style scoped>
 .article-detail-page {
-  max-width: 800px;
+  max-width: var(--content-max-width-narrow);
   margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+.el-card {
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-card);
 }
 
 .article-header {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .article-header h1 {
-  margin: 0 0 15px 0;
-  font-size: 28px;
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
 }
 
 .meta {
   display: flex;
   align-items: center;
-  gap: 15px;
-  color: var(--el-text-color-secondary);
+  gap: var(--spacing-md);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .author {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: var(--spacing-xs);
   cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.author:hover {
+  color: var(--primary-color);
 }
 
 .tags {
-  margin-top: 10px;
+  margin-top: var(--spacing-sm);
 }
 
 .actions {
-  margin-top: 15px;
+  margin-top: var(--spacing-md);
   display: flex;
-  gap: 10px;
+  gap: var(--spacing-sm);
   align-items: center;
 }
 
@@ -168,10 +184,11 @@ onMounted(async () => {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--radius-lg);
 }
 
 .article-content {
-  margin-top: 20px;
+  margin-top: var(--spacing-lg);
 }
 </style>

@@ -117,10 +117,16 @@ const handleRegister = async () => {
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 100px);
+  padding: var(--spacing-lg);
+  background: var(--bg-page);
 }
 
 .register-card {
   width: 400px;
+  max-width: 100%;
+  border-radius: var(--radius-xl);
+  border: none;
+  box-shadow: var(--shadow-md);
 }
 
 .card-header {
@@ -129,21 +135,31 @@ const handleRegister = async () => {
 
 .card-header h2 {
   margin: 0;
-  color: var(--el-text-color-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .card-header p {
-  margin: 10px 0 0 0;
-  color: var(--el-text-color-secondary);
+  margin: var(--spacing-sm) 0 0 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .footer-links {
   text-align: center;
-  color: var(--el-text-color-secondary);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .footer-links a {
-  color: var(--el-color-primary);
-  margin-left: 5px;
+  color: var(--primary-color);
+  margin-left: var(--spacing-xs);
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: var(--primary-light);
 }
 </style>

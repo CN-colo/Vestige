@@ -82,10 +82,16 @@ const handleLogout = () => {
 
 <style scoped>
 .navbar {
-  background-color: #fff;
-  border-bottom: 1px solid var(--el-border-color);
-  height: 60px;
-  padding: 0 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: none;
+  box-shadow: var(--shadow-sm);
+  height: var(--navbar-height);
+  padding: 0 var(--spacing-lg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .navbar-content {
@@ -93,7 +99,7 @@ const handleLogout = () => {
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
 }
 
@@ -106,28 +112,53 @@ const handleLogout = () => {
   display: flex;
   align-items: baseline;
   text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.brand-link:hover {
+  opacity: 0.85;
 }
 
 .brand-text {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--el-color-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color);
+  letter-spacing: -0.5px;
 }
 
 .brand-subtitle {
-  font-size: 14px;
-  color: var(--el-text-color-secondary);
-  margin-left: 8px;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-left: var(--spacing-xs);
+  font-weight: var(--font-weight-medium);
 }
 
 .navbar-menu {
   flex: 1;
-  margin-left: 40px;
+  margin-left: var(--spacing-xl);
   border-bottom: none;
+  background-color: transparent;
 }
 
 .navbar-menu .el-menu-item {
-  padding: 0 20px;
+  padding: 0 var(--spacing-lg);
+  height: var(--navbar-height);
+  line-height: var(--navbar-height);
+  border-radius: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+}
+
+.navbar-menu .el-menu-item:hover {
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.navbar-menu .el-menu-item.is-active {
+  background-color: transparent;
+  border-bottom: 2px solid var(--primary-color);
+  color: var(--primary-color);
 }
 
 .navbar-menu .el-menu-item a {
@@ -138,18 +169,27 @@ const handleLogout = () => {
 .navbar-user {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-sm);
 }
 
 .user-dropdown {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-xs);
   cursor: pointer;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.user-dropdown:hover {
+  background-color: var(--gray-50);
 }
 
 .username {
-  color: var(--el-text-color-primary);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 .el-dropdown-menu a {

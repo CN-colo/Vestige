@@ -293,26 +293,30 @@ article = client.create_article("AI文章", "内容...", tags=["ai"])
 .api-doc-page {
   max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
+  padding: var(--spacing-lg);
 }
 
 .doc-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: var(--spacing-xl);
 }
 
 .doc-header h1 {
-  font-size: 28px;
-  margin-bottom: 10px;
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--spacing-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
 }
 
 .doc-header p {
-  color: var(--el-text-color-secondary);
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
 }
 
 .doc-content {
-  background: var(--el-bg-color);
-  border-radius: 8px;
-  padding: 20px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-card);
 }
 </style>

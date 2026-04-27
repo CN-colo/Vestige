@@ -187,38 +187,47 @@ onMounted(async () => {
 
 <style scoped>
 .article-editor {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  background: var(--bg-card);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
 .editor-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .editor-header h2 {
   margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .actions {
   display: flex;
-  gap: 10px;
+  gap: var(--spacing-sm);
 }
 
 .cover-uploader {
   width: 200px;
   height: 150px;
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
+  border: 2px dashed var(--border-base);
+  border-radius: var(--radius-md);
   cursor: pointer;
   overflow: hidden;
+  background: var(--gray-50);
+  transition: all var(--transition-fast);
 }
 
 .cover-uploader:hover {
-  border-color: var(--el-color-primary);
+  border-color: var(--primary-color);
+  background: var(--primary-lighter);
 }
 
 .cover-preview {
@@ -228,12 +237,17 @@ onMounted(async () => {
 }
 
 .cover-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
+  font-size: var(--font-size-2xl);
+  color: var(--text-placeholder);
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: color var(--transition-fast);
+}
+
+.cover-uploader:hover .cover-uploader-icon {
+  color: var(--primary-color);
 }
 </style>

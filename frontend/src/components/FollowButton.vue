@@ -94,3 +94,21 @@ onMounted(() => {
   loadFollowStatus()
 })
 </script>
+
+<style scoped>
+.el-button {
+  transition: all var(--transition-fast);
+}
+
+.el-button:hover {
+  transform: translateY(-1px);
+}
+
+.el-button:active {
+  transform: scale(0.95);
+}
+
+.el-button--primary {
+  font-weight: var(--font-weight-medium);
+}
+</style>

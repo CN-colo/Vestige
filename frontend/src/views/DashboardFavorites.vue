@@ -108,20 +108,26 @@ onMounted(() => {
 
 <style scoped>
 .dashboard-favorites {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  background: var(--bg-card);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .page-header h2 {
   margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .favorites-list {
@@ -132,20 +138,23 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  border: 1px solid var(--el-border-color-lighter);
-  border-radius: 8px;
-  margin-bottom: 10px;
-  transition: border-color 0.2s;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-sm);
+  transition: all var(--transition-fast);
+  background: var(--bg-card);
 }
 
 .favorite-item:hover {
-  border-color: var(--el-color-primary-light-3);
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
 }
 
 .favorite-content {
   display: flex;
-  gap: 15px;
+  gap: var(--spacing-md);
   flex: 1;
   cursor: pointer;
 }
@@ -154,7 +163,7 @@ onMounted(() => {
   width: 100px;
   height: 80px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
 }
 
 .favorite-info {
@@ -162,19 +171,20 @@ onMounted(() => {
 }
 
 .favorite-type {
-  margin-bottom: 5px;
+  margin-bottom: var(--spacing-xs);
 }
 
 .favorite-title {
-  margin: 0 0 8px 0;
-  font-size: 16px;
-  color: var(--el-text-color-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
 }
 
 .favorite-desc {
-  margin: 0 0 8px 0;
-  font-size: 14px;
-  color: var(--el-text-color-secondary);
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -183,14 +193,14 @@ onMounted(() => {
 .favorite-meta {
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-size: 12px;
-  color: var(--el-text-color-secondary);
+  gap: var(--spacing-md);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
 }
 
 .author {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: var(--spacing-xs);
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="like-button" @click.stop="handleClick">
-    <el-icon :size="size" :color="isLiked ? '#f56c6c' : '#909399'" class="like-icon" :class="{ 'is-liked': isLiked }">
+    <el-icon :size="size" :color="isLiked ? 'var(--danger-color)' : 'var(--gray-500)'" class="like-icon" :class="{ 'is-liked': isLiked }">
       <component :is="LikeIcon" />
     </el-icon>
     <span class="like-count" :class="{ 'is-liked': isLiked }" v-if="showCount">{{ likeCount }}</span>
@@ -89,37 +89,45 @@ onMounted(() => {
 .like-button {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-xs);
   cursor: pointer;
   user-select: none;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
 }
 
 .like-button:hover {
-  background-color: rgba(245, 108, 108, 0.1);
+  background-color: var(--danger-lighter);
+  transform: translateY(-1px);
+}
+
+.like-button:active {
+  transform: scale(0.95);
 }
 
 .like-icon {
-  transition: transform 0.2s;
+  transition: all var(--transition-fast);
+  color: var(--gray-500);
 }
 
 .like-icon.is-liked {
+  color: var(--danger-color);
   transform: scale(1.1);
 }
 
 .like-button:hover .like-icon {
-  transform: scale(1.2);
+  transform: scale(1.15);
 }
 
 .like-count {
-  color: #909399;
-  font-size: 12px;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
 }
 
 .like-count.is-liked {
-  color: #f56c6c;
-  font-weight: 500;
+  color: var(--danger-color);
+  font-weight: var(--font-weight-semibold);
 }
 </style>

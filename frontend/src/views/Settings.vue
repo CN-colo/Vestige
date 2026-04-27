@@ -162,35 +162,43 @@ onMounted(() => {
 
 <style scoped>
 .settings-page {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 600px;
+  background: var(--bg-card);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  max-width: var(--content-max-width-small);
 }
 
 .page-header {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .page-header h2 {
   margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .avatar-uploader .el-upload {
   width: 100px;
   height: 100px;
-  border: 1px dashed var(--el-border-color);
+  border: 2px dashed var(--border-base);
   border-radius: 50%;
   cursor: pointer;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: border-color 0.2s;
+  transition: all var(--transition-fast);
+  background: var(--gray-50);
 }
 
 .avatar-uploader .el-upload:hover {
-  border-color: var(--el-color-primary);
+  border-color: var(--primary-color);
+  background: var(--primary-lighter);
 }
 
 .avatar-preview {
@@ -200,7 +208,12 @@ onMounted(() => {
 }
 
 .avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
+  font-size: var(--font-size-2xl);
+  color: var(--text-placeholder);
+  transition: color var(--transition-fast);
+}
+
+.avatar-uploader .el-upload:hover .avatar-uploader-icon {
+  color: var(--primary-color);
 }
 </style>

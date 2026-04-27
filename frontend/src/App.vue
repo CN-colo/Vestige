@@ -26,20 +26,6 @@ onMounted(async () => {
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-}
-
-#app {
-  height: 100%;
-}
-
 .app-container {
   min-height: 100vh;
   display: flex;
@@ -48,7 +34,7 @@ html, body {
 
 .main-content {
   flex: 1;
-  padding: 20px;
-  background-color: var(--el-bg-color);
+  padding: var(--spacing-lg);
+  background-color: var(--bg-page);
 }
 </style>

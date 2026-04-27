@@ -113,34 +113,55 @@ const handleToggleSubscribe = async (tag: string) => {
 
 <style scoped>
 .subscription-manage-page {
-  max-width: 800px;
+  max-width: var(--content-max-width-narrow);
   margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+.el-card {
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-card);
+}
+
+.el-card h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .add-subscription {
   display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
 }
 
 .popular-tags,
 .my-subscriptions {
-  margin-top: 20px;
+  margin-top: var(--spacing-lg);
 }
 
 .popular-tags h3,
 .my-subscriptions h3 {
-  margin-bottom: 15px;
-  color: var(--el-text-color-secondary);
+  margin-bottom: var(--spacing-md);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 .tag-list {
   display: flex;
-  gap: 10px;
+  gap: var(--spacing-sm);
   flex-wrap: wrap;
 }
 
 .popular-tag {
   cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.popular-tag:hover {
+  transform: translateY(-1px);
 }
 </style>
