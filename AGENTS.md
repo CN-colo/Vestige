@@ -22,6 +22,31 @@ npm run build                                            # 构建生产版本
 - 后端 API: http://localhost:8000
 - API 文档 (Swagger): http://localhost:8000/docs
 
+### Docker 部署
+```bash
+# 复制环境变量配置文件
+cp .env.example .env
+# 编辑 .env 文件，修改 SECRET_KEY
+
+# 构建并启动服务
+docker-compose up -d --build
+
+# 查看日志
+docker-compose logs -f
+
+# 停止服务
+docker-compose down
+
+# 停止并删除数据卷
+docker-compose down -v
+```
+
+**访问地址**: http://localhost:3000
+
+**数据持久化**:
+- 数据库文件: Docker volume `vestige-data`
+- 上传文件: Docker volume `vestige-uploads`
+
 ## 架构概览
 
 ### 后端架构 (backend/app/)
