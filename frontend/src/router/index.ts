@@ -149,12 +149,18 @@ const router = createRouter({
 })
 
 // Navigation guard
-router.beforeEach((to, _from, next) => {
+router.beforeEach(async (to, _from, next) => {
   // Update page title
   document.title = to.meta.title as string || 'Vestige - 古墟'
   
   // Check authentication
   const userStore = useUserStore()
+  
+  // 如果有 token 但用户未加载，先尝试初始化用户
+  if (userStore.token && !userStore.user) {
+    await userStore.initUser()
+  }
+  
   if (to.meta.requiresAuth && !userStore.isLoggedIn) {
     next({ name: 'Login', query: { redirect: to.fullPath } })
   } else {

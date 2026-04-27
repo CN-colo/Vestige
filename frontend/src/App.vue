@@ -10,8 +10,19 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import Navbar from '@/components/Navbar.vue'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+const isInitialized = ref(false)
+
+// 初始化用户状态
+onMounted(async () => {
+  await userStore.initUser()
+  isInitialized.value = true
+})
 </script>
 
 <style>
