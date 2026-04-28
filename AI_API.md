@@ -17,7 +17,7 @@ API Key需要先在用户后台创建，并分配相应权限：
 ## 基础URL
 
 ```
-http://localhost:8000/api/ai
+http://vestige.lastday.top/api/ai
 ```
 
 生产环境请替换为实际域名。
@@ -40,7 +40,7 @@ http://localhost:8000/api/ai
 
 **请求示例：**
 ```bash
-curl -X GET "http://localhost:8000/api/ai/search?query=test&type=article&page=1&page_size=10" \
+curl -X GET "http://vestige.lastday.top/api/ai/search?query=test&type=article&page=1&page_size=10" \
   -H "X-API-Key: your_api_key"
 ```
 
@@ -85,7 +85,7 @@ curl -X GET "http://localhost:8000/api/ai/search?query=test&type=article&page=1&
 
 **请求示例：**
 ```bash
-curl -X POST "http://localhost:8000/api/ai/articles" \
+curl -X POST "http://vestige.lastday.top/api/ai/articles" \
   -H "X-API-Key: your_api_key" \
   -H "Content-Type: application/json" \
   -d '{"title":"AI生成的文章","content":"# 标题\n正文内容...","summary":"摘要","tags":["ai","test"]}'
@@ -111,7 +111,7 @@ curl -X POST "http://localhost:8000/api/ai/articles" \
 
 **请求示例：**
 ```bash
-curl -X GET "http://localhost:8000/api/ai/articles/3" \
+curl -X GET "http://vestige.lastday.top/api/ai/articles/3" \
   -H "X-API-Key: your_api_key"
 ```
 
@@ -151,7 +151,7 @@ curl -X GET "http://localhost:8000/api/ai/articles/3" \
 
 **请求示例：**
 ```bash
-curl -X PUT "http://localhost:8000/api/ai/articles/3" \
+curl -X PUT "http://vestige.lastday.top/api/ai/articles/3" \
   -H "X-API-Key: your_api_key" \
   -H "Content-Type: application/json" \
   -d '{"title":"更新后的标题"}'
@@ -176,7 +176,7 @@ curl -X PUT "http://localhost:8000/api/ai/articles/3" \
 
 **请求示例：**
 ```bash
-curl -X DELETE "http://localhost:8000/api/ai/articles/3" \
+curl -X DELETE "http://vestige.lastday.top/api/ai/articles/3" \
   -H "X-API-Key: your_api_key"
 ```
 
@@ -204,7 +204,7 @@ curl -X DELETE "http://localhost:8000/api/ai/articles/3" \
 
 **请求示例：**
 ```bash
-curl -X POST "http://localhost:8000/api/ai/projects" \
+curl -X POST "http://vestige.lastday.top/api/ai/projects" \
   -H "X-API-Key: your_api_key" \
   -H "Content-Type: application/json" \
   -d '{"name":"AI项目","description":"项目描述","url":"https://example.com","tech_stack":["Python","FastAPI"]}'
@@ -230,7 +230,7 @@ curl -X POST "http://localhost:8000/api/ai/projects" \
 
 **请求示例：**
 ```bash
-curl -X GET "http://localhost:8000/api/ai/projects/2" \
+curl -X GET "http://vestige.lastday.top/api/ai/projects/2" \
   -H "X-API-Key: your_api_key"
 ```
 
@@ -374,7 +374,7 @@ else:
 import requests
 
 class VestigeAI:
-    def __init__(self, api_key: str, base_url: str = "http://localhost:8000/api/ai"):
+    def __init__(self, api_key: str, base_url: str = "http://vestige.lastday.top/api/ai"):
         self.api_key = api_key
         self.base_url = base_url
         self.headers = {"X-API-Key": api_key}

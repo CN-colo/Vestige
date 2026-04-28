@@ -10,6 +10,7 @@ from ..models.project import Project
 from ..schemas.article import ArticlePublicResponse
 from ..schemas.project import ProjectPublicResponse
 from ..schemas.user import UserPublic
+from ..config import settings
 
 router = APIRouter()
 
@@ -157,7 +158,7 @@ async def get_public_projects(
     return {
         "items": items,
         "total": total,
-        "page": page_size,
+        "page": page,
         "page_size": page_size,
         "total_pages": total_pages
     }
@@ -423,4 +424,19 @@ async def get_user_card(user_id: int, db: Session = Depends(get_db)):
         "articles": articles_list,
         "projects": projects_list,
         "created_at": user.created_at
+    }
+
+
+@router.get("/agent-guide")
+async def get_agent_guide():
+    """Get Agent guide URL for AI integration."""
+    if settings.DEBUG:
+        # 本地调试时，文档挂载在 /docs-static
+        base = f"{settings.effective_base_url}/docs-static"
+    else:
+        # 生产环境，文档直接在根目录
+        base = settings.BASE_URL
+    return {
+        "agent_guide_url": f"{base}/AGENT_GUIDE.md",
+        "ai_api_url": f"{base}/AI_API.md"
     }

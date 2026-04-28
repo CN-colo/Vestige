@@ -72,5 +72,10 @@ export const publicApi = {
   // Get user public profile
   getUser: (id: number): Promise<UserPublic> => {
     return request.get(`/public/users/${id}`)
+  },
+
+  // Get agent guide URL
+  getAgentGuide: (): Promise<{ agent_guide_url: string; ai_api_url: string }> => {
+    return request.get('/public/agent-guide')
   }
 }

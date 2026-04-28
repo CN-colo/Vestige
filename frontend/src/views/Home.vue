@@ -9,6 +9,16 @@
           <el-icon><Document /></el-icon>
           AI API 文档
         </el-button>
+        <el-tag 
+          v-if="agentGuideUrl" 
+          type="success" 
+          class="agent-guide-tag"
+          @click="copyAgentGuide"
+        >
+          <el-icon><Link /></el-icon>
+          Agent指南
+          <el-icon class="copy-icon"><CopyDocument /></el-icon>
+        </el-tag>
       </div>
     </div>
 
@@ -100,7 +110,8 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { publicApi } from '@/api/articles'
-import { Document } from '@element-plus/icons-vue'
+import { Document, Link, CopyDocument } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 
@@ -114,6 +125,28 @@ const contentList = ref<any[]>([])
 const allTags = ref<string[]>([])
 const total = ref(0)
 const totalPages = ref(0)
+const agentGuideUrl = ref('')
+
+// 加载 Agent 指南 URL
+const loadAgentGuide = async () => {
+  try {
+    const response = await publicApi.getAgentGuide()
+    agentGuideUrl.value = response.agent_guide_url
+  } catch (error) {
+    console.error('Failed to load agent guide:', error)
+  }
+}
+
+// 复制 Agent 指南链接
+const copyAgentGuide = async () => {
+  try {
+    const fullText = `【请根据文档创建skill：${agentGuideUrl.value}】`
+    await navigator.clipboard.writeText(fullText)
+    ElMessage.success('已复制 Agent 指南链接')
+  } catch (error) {
+    ElMessage.error('复制失败')
+  }
+}
 
 // 加载所有标签
 const loadTags = async () => {
@@ -215,6 +248,7 @@ const formatDate = (date?: string) => {
 onMounted(() => {
   loadTags()
   loadContent()
+  loadAgentGuide()
 })
 </script>
 
@@ -237,6 +271,30 @@ onMounted(() => {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.agent-guide-tag {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.agent-guide-tag:hover {
+  opacity: 0.8;
+}
+
+.agent-guide-tag .copy-icon {
+  margin-left: 4px;
+  font-size: 14px;
 }
 
 .filter-section {

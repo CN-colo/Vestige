@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 import os
+from pathlib import Path
 
 from .config import settings
 from .database import init_db
@@ -36,6 +37,13 @@ app.add_middleware(
 
 # Mount static files for uploads
 app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
+
+# Mount static files for documentation (AGENT_GUIDE.md, AI_API.md in project root)
+project_root = Path(__file__).parent.parent.parent
+docs_dir = project_root
+if docs_dir.exists():
+    # Only mount if the directory exists (for development)
+    app.mount("/docs-static", StaticFiles(directory=str(docs_dir), html=True), name="docs-static")
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
