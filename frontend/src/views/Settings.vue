@@ -125,7 +125,7 @@ const handleAvatarUpload = async (options: any) => {
     profileForm.value.avatar = `/uploads/${media.filename}`
     ElMessage.success('头像上传成功')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '上传失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '上传失败')
   }
 }
 
@@ -139,7 +139,7 @@ const handleUpdateProfile = async () => {
         await userStore.updateUser(profileForm.value)
         ElMessage.success('修改成功')
       } catch (error: any) {
-        ElMessage.error(error.response?.data?.detail || '修改失败')
+        ElMessage.error(error.userMessage || error.response?.data?.detail || '修改失败')
       } finally {
         saving.value = false
       }

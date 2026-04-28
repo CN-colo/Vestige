@@ -116,7 +116,7 @@ const handleUnsubscribe = async (tag: string) => {
     await subscriptionStore.loadFeed(1, 20)
     feed.value = subscriptionStore.feed
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   }
 }
 </script>

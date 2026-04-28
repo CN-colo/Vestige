@@ -86,7 +86,7 @@ const handleSubscribe = async () => {
     ElMessage.success(`已订阅 "${newTag.value}"`)
     newTag.value = ''
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '订阅失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '订阅失败')
   } finally {
     subscribeLoading.value = false
   }
@@ -97,7 +97,7 @@ const handleUnsubscribe = async (tag: string) => {
     await subscriptionStore.unsubscribeTag(tag)
     ElMessage.success(`已取消订阅 "${tag}"`)
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   }
 }
 
@@ -106,7 +106,7 @@ const handleToggleSubscribe = async (tag: string) => {
     const newState = await subscriptionStore.toggleSubscription(tag)
     ElMessage.success(newState ? `已订阅 "${tag}"` : `已取消订阅 "${tag}"`)
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   }
 }
 </script>

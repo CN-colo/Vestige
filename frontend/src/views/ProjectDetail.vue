@@ -108,7 +108,7 @@ const handleFavorite = async () => {
     isFavorited.value = result
     ElMessage.success(result ? '已添加到收藏' : '已取消收藏')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   } finally {
     favoriteLoading.value = false
   }

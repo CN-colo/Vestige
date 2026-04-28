@@ -21,6 +21,7 @@ class ArticleUpdate(BaseModel):
     cover_image: Optional[str] = None
     summary: Optional[str] = Field(None, max_length=500)
     tags: Optional[List[str]] = None
+    is_public: Optional[bool] = None
 
 
 class ArticleResponse(BaseModel):

@@ -125,6 +125,33 @@ async def update_article(
     if article_data.tags:
         article.tags = article_data.tags
     
+    # #region agent log
+    # Debug: 检查 is_public 字段更新
+    log_data = {
+        "location": "articles.py:update_article",
+        "message": "Processing is_public update",
+        "data": {"is_public_received": article_data.is_public, "current_is_public": article.is_public},
+        "timestamp": int(datetime.now().timestamp() * 1000),
+        "sessionId": "debug-session",
+        "hypothesisId": "B",
+        "runId": "pre-fix"
+    }
+    try:
+        import os
+        log_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), ".bitfun", "debug.log")
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        with open(log_path, "a") as f:
+            f.write(json.dumps(log_data) + "\n")
+    except Exception as e:
+        print(f"Debug log error: {e}")
+    # #endregion
+    
+    if article_data.is_public is not None:
+        article.is_public = article_data.is_public
+        # 设置发布时间（首次发布时）
+        if article_data.is_public and not article.published_at:
+            article.published_at = datetime.utcnow()
+    
     db.commit()
     db.refresh(article)
     

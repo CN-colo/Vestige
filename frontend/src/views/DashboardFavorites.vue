@@ -96,7 +96,7 @@ const handleRemove = async (favorite: FavoriteWithItem) => {
     ElMessage.success('已取消收藏')
   } catch (error: any) {
     if (error !== 'cancel') {
-      ElMessage.error(error.response?.data?.detail || '操作失败')
+      ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
     }
   }
 }

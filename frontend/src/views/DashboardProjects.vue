@@ -112,7 +112,7 @@ const handlePublish = async (project: any) => {
       ElMessage.success('已发布到公开域')
     }
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   }
 }
 
@@ -125,7 +125,7 @@ const handleDelete = async (project: any) => {
     ElMessage.success('删除成功')
   } catch (error: any) {
     if (error !== 'cancel') {
-      ElMessage.error(error.response?.data?.detail || '删除失败')
+      ElMessage.error(error.userMessage || error.response?.data?.detail || '删除失败')
     }
   }
 }

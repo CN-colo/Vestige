@@ -68,7 +68,7 @@ const handleLogin = async () => {
         const redirect = route.query.redirect as string || '/dashboard'
         router.push(redirect)
       } catch (error: any) {
-        ElMessage.error(error.response?.data?.detail || '登录失败')
+        ElMessage.error(error.userMessage || error.response?.data?.detail || '登录失败')
       } finally {
         loading.value = false
       }

@@ -69,7 +69,7 @@ const handleClick = async () => {
     likeCount.value = newState ? likeCount.value + 1 : Math.max(0, likeCount.value - 1)
     emit('change', newState, likeCount.value)
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   } finally {
     loading.value = false
   }

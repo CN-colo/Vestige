@@ -79,7 +79,7 @@ const handleClick = async () => {
     emit('change', newState)
     ElMessage.success(newState ? '关注成功' : '已取消关注')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   } finally {
     loading.value = false
   }

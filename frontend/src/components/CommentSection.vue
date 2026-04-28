@@ -178,7 +178,7 @@ const handleSubmit = async () => {
     newComment.value = ''
     ElMessage.success('评论发表成功')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '发表评论失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '发表评论失败')
   } finally {
     submitting.value = false
   }
@@ -203,7 +203,7 @@ const handleReply = async (parentId: number) => {
     replyContent.value = ''
     ElMessage.success('回复发表成功')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '发表回复失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '发表回复失败')
   } finally {
     replyLoading.value = false
   }
@@ -223,7 +223,7 @@ const handleEditSave = async (commentId: number, parentId?: number) => {
     editingContent.value = ''
     ElMessage.success('评论修改成功')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '修改评论失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '修改评论失败')
   } finally {
     editingLoading.value = false
   }
@@ -238,7 +238,7 @@ const handleDelete = async (commentId: number, parentId?: number) => {
     ElMessage.success('评论已删除')
   } catch (error: any) {
     if (error !== 'cancel') {
-      ElMessage.error(error.response?.data?.detail || '删除评论失败')
+      ElMessage.error(error.userMessage || error.response?.data?.detail || '删除评论失败')
     }
   }
 }

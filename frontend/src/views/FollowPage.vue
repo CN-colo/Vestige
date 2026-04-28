@@ -115,7 +115,7 @@ const handleToggleFollow = async (user: UserWithLoading) => {
     user.followers_count = newState ? user.followers_count + 1 : user.followers_count - 1
     ElMessage.success(newState ? '关注成功' : '已取消关注')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   } finally {
     user.loading = false
   }

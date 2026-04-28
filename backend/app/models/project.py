@@ -11,6 +11,7 @@ class Project(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     name = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
+    content = Column(Text, nullable=True)  # 正文内容（Markdown）
     url = Column(String(500), nullable=True)
     cover_image = Column(String(255), nullable=True)
     tags = Column(JSON, nullable=True)

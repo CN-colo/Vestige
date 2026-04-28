@@ -192,7 +192,7 @@ const handleCreate = async () => {
     loadKeys()
     ElMessage.success('API Key 创建成功')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '创建失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '创建失败')
   } finally {
     creating.value = false
   }
@@ -209,7 +209,7 @@ const handleToggleActive = async (key: ApiKey) => {
     ElMessage.success(key.is_active ? '已禁用' : '已启用')
     loadKeys()
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   }
 }
 
@@ -221,7 +221,7 @@ const handleDelete = async (key: ApiKey) => {
     loadKeys()
   } catch (error: any) {
     if (error !== 'cancel') {
-      ElMessage.error(error.response?.data?.detail || '删除失败')
+      ElMessage.error(error.userMessage || error.response?.data?.detail || '删除失败')
     }
   }
 }

@@ -87,6 +87,16 @@ except sqlite3.OperationalError as e:
     else:
         print(f'! likes: {e}')
 
+# 6. 添加 content 列到 projects 表（正文内容）
+try:
+    cursor.execute('ALTER TABLE projects ADD COLUMN content TEXT')
+    print('✓ Added content to projects')
+except sqlite3.OperationalError as e:
+    if 'duplicate column name' in str(e):
+        print('✓ projects.content already exists')
+    else:
+        print(f'! projects content: {e}')
+
 conn.commit()
 conn.close()
 

@@ -67,6 +67,7 @@
             :style="{ height: editorHeight }"
             :preview="true"
             :toolbars="editorToolbars"
+            :onUploadImg="handleUploadImage"
             placeholder="请使用 Markdown 格式编写作品内容..."
           />
         </el-form-item>
@@ -147,6 +148,144 @@ const editorToolbars: ToolbarNames[] = [
   'revoke', 'next', 'save', '=', 'preview', 'fullscreen'
 ]
 
+// #region agent log
+// Debug: 检查 onUploadImage 回调是否被配置
+fetch('http://127.0.0.1:7243/ingest/debug-session', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    location: 'ProjectEditor.vue:148',
+    message: 'Editor initialized - checking onUploadImage configuration',
+    data: { hasOnUploadImage: false, toolbarsCount: editorToolbars.length },
+    timestamp: Date.now(),
+    sessionId: 'debug-session',
+    hypothesisId: 'A',
+    runId: 'pre-fix'
+  })
+}).catch(() => {})
+// #endregion
+
+// 处理编辑器内图片上传
+const handleUploadImage = async (files: File[], callback: (urls: string[]) => void) => {
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/debug-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      location: 'ProjectEditor.vue:handleUploadImage',
+      message: 'onUploadImage callback triggered',
+      data: { filesCount: files?.length, filesTypes: files?.map(f => f.type) },
+      timestamp: Date.now(),
+      sessionId: 'debug-session',
+      hypothesisId: 'A',
+      runId: 'pre-fix'
+    })
+  }).catch(() => {})
+  // #endregion
+
+  if (!files || files.length === 0) {
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/debug-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        location: 'ProjectEditor.vue:handleUploadImage',
+        message: 'No files to upload',
+        data: {},
+        timestamp: Date.now(),
+        sessionId: 'debug-session',
+        hypothesisId: 'B',
+        runId: 'pre-fix'
+      })
+    }).catch(() => {})
+    // #endregion
+    return
+  }
+
+  try {
+    const formData = new FormData()
+    formData.append('file', files[0])
+
+    const response = await fetch(`${request.defaults.baseURL}/media/upload`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${userStore.token}`
+      },
+      body: formData
+    })
+
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/debug-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        location: 'ProjectEditor.vue:handleUploadImage',
+        message: 'Upload response received',
+        data: { status: response.status, ok: response.ok },
+        timestamp: Date.now(),
+        sessionId: 'debug-session',
+        hypothesisId: 'C',
+        runId: 'pre-fix'
+      })
+    }).catch(() => {})
+    // #endregion
+
+    if (response.ok) {
+      const data = await response.json()
+      // #region agent log
+      fetch('http://127.0.0.1:7243/ingest/debug-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          location: 'ProjectEditor.vue:handleUploadImage',
+          message: 'Upload successful, calling callback',
+          data: { url: data.url, fullResponse: data },
+          timestamp: Date.now(),
+          sessionId: 'debug-session',
+          hypothesisId: 'C',
+          runId: 'pre-fix'
+        })
+      }).catch(() => {})
+      // #endregion
+      callback([data.url])
+    } else {
+      // #region agent log
+      fetch('http://127.0.0.1:7243/ingest/debug-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          location: 'ProjectEditor.vue:handleUploadImage',
+          message: 'Upload failed',
+          data: { status: response.status, statusText: response.statusText },
+          timestamp: Date.now(),
+          sessionId: 'debug-session',
+          hypothesisId: 'C',
+          runId: 'pre-fix'
+        })
+      }).catch(() => {})
+      // #endregion
+      ElMessage.error('图片上传失败')
+    }
+  } catch (error: any) {
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/debug-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        location: 'ProjectEditor.vue:handleUploadImage',
+        message: 'Upload error',
+        data: { error: error?.message || String(error) },
+        timestamp: Date.now(),
+        sessionId: 'debug-session',
+        hypothesisId: 'C',
+        runId: 'pre-fix'
+      })
+    }).catch(() => {})
+    // #endregion
+    ElMessage.error('图片上传出错')
+  }
+}
+
 const loadProject = async () => {
   try {
     const data = await projectStore.loadProject(projectId.value)
@@ -160,7 +299,7 @@ const loadProject = async () => {
       is_public: data.is_public ?? false
     }
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '加载作品失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '加载作品失败')
     router.push('/dashboard/projects')
   }
 }
@@ -217,7 +356,7 @@ const handleSaveDraft = async () => {
     ElMessage.success('草稿保存成功')
     router.push('/dashboard/projects')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '保存失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '保存失败')
   } finally {
     saving.value = false
   }
@@ -229,7 +368,7 @@ const handlePublish = async () => {
     return
   }
   if (!project.value.content) {
-    ElMessage.warning('请输入作品内容')
+    ElMessage.warning('请输入作品正文')
     return
   }
 
@@ -253,7 +392,7 @@ const handlePublish = async () => {
     ElMessage.success('发布成功')
     router.push('/dashboard/projects')
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '发布失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '发布失败')
   } finally {
     publishing.value = false
   }

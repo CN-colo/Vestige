@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from datetime import datetime
+import json
 
 from ..database import get_db
 from ..models.user import User
@@ -38,6 +39,7 @@ async def create_project(
         user_id=current_user.id,
         name=project_data.name,
         description=project_data.description,
+        content=project_data.content,
         url=project_data.url,
         cover_image=project_data.cover_image,
         tags=project_data.tags if project_data.tags else [],
@@ -74,6 +76,7 @@ async def get_project(
         "user_id": project.user_id,
         "name": project.name,
         "description": project.description,
+        "content": project.content,
         "url": project.url,
         "cover_image": project.cover_image,
         "tags": project.tags,
@@ -100,6 +103,26 @@ async def update_project(
     db: Session = Depends(get_db)
 ):
     """Update a project."""
+    # #region agent log
+    log_data = {
+        "location": "projects.py:update_project",
+        "message": "Received update request",
+        "data": {"project_id": project_id, "received_fields": project_data.model_dump()},
+        "timestamp": int(datetime.now().timestamp() * 1000),
+        "sessionId": "debug-session",
+        "hypothesisId": "A",
+        "runId": "pre-fix"
+    }
+    try:
+        import os
+        log_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), ".bitfun", "debug.log")
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        with open(log_path, "a") as f:
+            f.write(json.dumps(log_data) + "\n")
+    except Exception as e:
+        print(f"Debug log error: {e}")
+    # #endregion
+    
     project = db.query(Project).filter(
         Project.id == project_id,
         Project.user_id == current_user.id
@@ -117,6 +140,10 @@ async def update_project(
     if project_data.description:
         project.description = project_data.description
     
+    # content 字段允许设置为空或更新
+    if project_data.content is not None:
+        project.content = project_data.content
+    
     if project_data.url:
         project.url = project_data.url
     
@@ -129,8 +156,48 @@ async def update_project(
     if project_data.tech_stack:
         project.tech_stack = project_data.tech_stack
     
+    # #region agent log
+    log_data2 = {
+        "location": "projects.py:update_project",
+        "message": "Project model fields",
+        "data": {"model_has_content": hasattr(project, 'content'), "model_fields": [c.name for c in Project.__table__.columns]},
+        "timestamp": int(datetime.now().timestamp() * 1000),
+        "sessionId": "debug-session",
+        "hypothesisId": "B",
+        "runId": "pre-fix"
+    }
+    try:
+        with open(log_path, "a") as f:
+            f.write(json.dumps(log_data2) + "\n")
+    except Exception as e:
+        print(f"Debug log error: {e}")
+    # #endregion
+    
+    if project_data.is_public is not None:
+        project.is_public = project_data.is_public
+        # 设置发布时间（首次发布时）
+        if project_data.is_public and not project.published_at:
+            project.published_at = datetime.utcnow()
+    
     db.commit()
     db.refresh(project)
+    
+    # #region agent log
+    log_data3 = {
+        "location": "projects.py:update_project",
+        "message": "Update completed successfully",
+        "data": {"project_id": project.id, "content_saved": project.content, "is_public": project.is_public},
+        "timestamp": int(datetime.now().timestamp() * 1000),
+        "sessionId": "debug-session",
+        "hypothesisId": "C",
+        "runId": "pre-fix"
+    }
+    try:
+        with open(log_path, "a") as f:
+            f.write(json.dumps(log_data3) + "\n")
+    except Exception as e:
+        print(f"Debug log error: {e}")
+    # #endregion
     
     return project
 

@@ -61,7 +61,7 @@ const handleClick = async () => {
     emit('change', newState)
     ElMessage.success(newState ? `已订阅标签 "${props.tag}"` : `已取消订阅标签 "${props.tag}"`)
   } catch (error: any) {
-    ElMessage.error(error.response?.data?.detail || '操作失败')
+    ElMessage.error(error.userMessage || error.response?.data?.detail || '操作失败')
   } finally {
     loading.value = false
   }

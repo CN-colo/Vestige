@@ -36,6 +36,41 @@ request.interceptors.request.use(
   }
 )
 
+// Helper function to extract error message from various error formats
+function extractErrorMessage(errorData: any): string {
+  if (!errorData) return '请求失败'
+
+  const detail = errorData.detail
+
+  // Handle Pydantic validation errors (array of error objects)
+  if (Array.isArray(detail) && detail.length > 0) {
+    const firstError = detail[0]
+    // Extract field name from loc array (e.g., ["body", "password"] -> "password")
+    const field = firstError.loc?.slice(-1)[0] || '字段'
+    const message = firstError.msg || '验证失败'
+    // Translate field names
+    const fieldNames: Record<string, string> = {
+      username: '用户名',
+      password: '密码',
+      email: '邮箱'
+    }
+    const fieldName = fieldNames[field] || field
+    return `${fieldName}${message.replace('String should have at least', '长度至少为').replace('characters', '个字符')}`
+  }
+
+  // Handle simple string detail
+  if (typeof detail === 'string') {
+    return detail
+  }
+
+  // Handle message field
+  if (errorData.message) {
+    return errorData.message
+  }
+
+  return '请求失败'
+}
+
 // Response interceptor
 request.interceptors.response.use(
   (response) => {
@@ -43,6 +78,9 @@ request.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
+      // Extract and attach a user-friendly error message
+      error.userMessage = extractErrorMessage(error.response.data)
+
       if (error.response.status === 401) {
         const userStore = useUserStore()
         userStore.logout()
