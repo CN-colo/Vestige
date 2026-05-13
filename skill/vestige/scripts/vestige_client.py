@@ -70,6 +70,7 @@ class VestigeClient:
         self,
         title: str,
         content: str,
+        content_type: str = "markdown",
         summary: Optional[str] = None,
         cover_image: Optional[str] = None,
         tags: Optional[List[str]] = None
@@ -79,15 +80,20 @@ class VestigeClient:
         
         Args:
             title: Article title
-            content: Article content (supports Markdown)
+            content: Article content (supports Markdown or HTML based on content_type)
+            content_type: Content format - "markdown" or "html" (default: markdown)
             summary: Article summary
             cover_image: Cover image URL
             tags: List of tags
             
         Returns:
-            Created article with id, title, is_public, created_at
+            Created article with id, title, content_type, preview_url, created_at
         """
-        data = {'title': title, 'content': content}
+        data = {
+            'title': title,
+            'content': content,
+            'content_type': content_type
+        }
         if summary:
             data['summary'] = summary
         if cover_image:
@@ -114,7 +120,7 @@ class VestigeClient:
         
         Args:
             article_id: Article ID
-            **kwargs: Fields to update (title, content, summary, tags)
+            **kwargs: Fields to update (title, content, content_type, summary, tags)
             
         Returns:
             Updated article details

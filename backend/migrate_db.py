@@ -97,6 +97,16 @@ except sqlite3.OperationalError as e:
     else:
         print(f'! projects content: {e}')
 
+# 7. 添加 content_type 列到 articles 表（markdown/html）
+try:
+    cursor.execute('ALTER TABLE articles ADD COLUMN content_type VARCHAR(20) DEFAULT "markdown"')
+    print('✓ Added content_type to articles')
+except sqlite3.OperationalError as e:
+    if 'duplicate column name' in str(e):
+        print('✓ articles.content_type already exists')
+    else:
+        print(f'! articles content_type: {e}')
+
 conn.commit()
 conn.close()
 

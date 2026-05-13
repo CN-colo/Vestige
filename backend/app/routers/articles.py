@@ -39,6 +39,7 @@ async def create_article(
         user_id=current_user.id,
         title=article_data.title,
         content=article_data.content,
+        content_type=article_data.content_type or "markdown",
         cover_image=article_data.cover_image,
         summary=article_data.summary,
         tags=article_data.tags if article_data.tags else []
@@ -74,6 +75,7 @@ async def get_article(
         "user_id": article.user_id,
         "title": article.title,
         "content": article.content,
+        "content_type": article.content_type or "markdown",
         "cover_image": article.cover_image,
         "summary": article.summary,
         "tags": article.tags,
@@ -115,6 +117,9 @@ async def update_article(
     
     if article_data.content:
         article.content = article_data.content
+    
+    if article_data.content_type:
+        article.content_type = article_data.content_type
     
     if article_data.cover_image:
         article.cover_image = article_data.cover_image

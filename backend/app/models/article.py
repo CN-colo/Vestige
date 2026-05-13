@@ -11,6 +11,7 @@ class Article(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     title = Column(String(255), nullable=False)
     content = Column(Text, nullable=False)
+    content_type = Column(String(20), default="markdown", nullable=False)  # "markdown" or "html"
     cover_image = Column(String(255), nullable=True)
     summary = Column(String(500), nullable=True)
     tags = Column(JSON, nullable=True)

@@ -45,7 +45,19 @@
       <img v-if="article?.cover_image" :src="article?.cover_image" class="cover-image" />
 
       <div class="article-content">
-        <MdPreview :modelValue="article?.content || ''" language="zh-CN" />
+        <!-- Markdown rendering -->
+        <MdPreview 
+          v-if="article?.content_type === 'markdown' || !article?.content_type" 
+          :modelValue="article?.content || ''" 
+          language="zh-CN" 
+        />
+        <!-- HTML rendering with sandbox iframe -->
+        <iframe 
+          v-else-if="article?.content_type === 'html'"
+          sandbox="allow-scripts allow-popups"
+          :srcdoc="article?.content || ''"
+          class="html-preview"
+        ></iframe>
       </div>
 
       <!-- Comment section -->
@@ -190,6 +202,13 @@ onMounted(async () => {
 
 .article-content {
   margin-top: var(--spacing-lg);
+}
+
+.html-preview {
+  width: 100%;
+  min-height: 600px;
+  border: none;
+  border-radius: var(--radius-md);
 }
 
 /* 手机端适配 */

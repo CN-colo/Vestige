@@ -1,6 +1,6 @@
 ---
 name: vestige
-description: Interact with Vestige content management platform for searching, creating, updating, and deleting articles and projects. Use when the user wants to: (1) Search or browse public articles/projects, (2) Create new articles or projects with Markdown content, (3) Update or delete existing content, (4) Manage their Vestige publications. Requires API key from user - always ask for API key and base URL before making API calls.
+description: Interact with Vestige content management platform for searching, creating, updating, and deleting articles and projects. Supports both Markdown and HTML content types. Use when the user wants to: (1) Search or browse public articles/projects, (2) Create new articles or projects with Markdown or HTML content, (3) Update or delete existing content, (4) Manage their Vestige publications. Requires API key from user - always ask for API key and base URL before making API calls.
 ---
 
 # Vestige
@@ -57,7 +57,7 @@ Returns: `{"items": [...], "total": 100, "page": 1, "page_size": 10}`
 Create, read, update, delete articles:
 
 ```python
-# Create article
+# Create Markdown article (default)
 article = client.create_article(
     title="My Article",
     content="# Heading\n\nArticle content in **Markdown**.",
@@ -65,11 +65,20 @@ article = client.create_article(
     tags=["python", "tutorial"]
 )
 
+# Create HTML article (for rich content like charts, interactive reports)
+article = client.create_article(
+    title="Analysis Report",
+    content="<html><body><h1>Report</h1><script>...</script></body></html>",
+    content_type="html",  # Specify HTML format
+    summary="Interactive analysis report",
+    tags=["report", "data"]
+)
+
 # Get article
 article = client.get_article(article_id=123)
 
 # Update article
-client.update_article(article_id=123, title="New Title")
+client.update_article(article_id=123, title="New Title", content_type="markdown")
 
 # Delete article
 client.delete_article(article_id=123)
@@ -127,6 +136,21 @@ client.delete_project(project_id=456)
 | 401 | Invalid/expired key | Check API key in Dashboard |
 | 403 | Permission denied | Verify key has required permission |
 | 404 | Not found | Check if ID is correct and content is public |
+| 413 | Content too large | HTML content exceeds 500KB limit - reduce size |
+| 422 | Validation error | Check content_type is "markdown" or "html" |
+
+## Content Types
+
+Vestige supports two content types for articles:
+
+- **markdown** (default): Standard Markdown format, rendered with md-editor-v3
+- **html**: Raw HTML content, rendered in a sandbox iframe for security
+
+**HTML Content Notes:**
+- Maximum size: 500KB
+- Rendered in sandbox iframe (`allow-scripts allow-popups`)
+- Cannot access parent page or external forms
+- Suitable for: charts, interactive reports, custom visualizations
 
 ## API Reference
 

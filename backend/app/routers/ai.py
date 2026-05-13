@@ -138,6 +138,7 @@ async def create_article_ai(
         user_id=api_key.user_id,
         title=article_data.title,
         content=article_data.content,
+        content_type=article_data.content_type or "markdown",
         cover_image=article_data.cover_image,
         summary=article_data.summary,
         tags=article_data.tags or [],
@@ -148,9 +149,14 @@ async def create_article_ai(
     db.commit()
     db.refresh(new_article)
     
+    # Build preview URL
+    preview_url = f"/article/{new_article.id}"
+    
     return {
         "id": new_article.id,
         "title": new_article.title,
+        "content_type": new_article.content_type,
+        "preview_url": preview_url,
         "is_public": True,
         "created_at": new_article.created_at
     }
@@ -184,6 +190,7 @@ async def get_article_ai(
         "id": article.id,
         "title": article.title,
         "content": article.content,
+        "content_type": article.content_type,
         "cover_image": article.cover_image,
         "summary": article.summary,
         "tags": article.tags,
@@ -223,6 +230,8 @@ async def update_article_ai(
         article.title = article_data.title
     if article_data.content:
         article.content = article_data.content
+    if article_data.content_type:
+        article.content_type = article_data.content_type
     if article_data.cover_image:
         article.cover_image = article_data.cover_image
     if article_data.summary:
@@ -236,6 +245,7 @@ async def update_article_ai(
     return {
         "id": article.id,
         "title": article.title,
+        "content_type": article.content_type,
         "updated_at": article.updated_at
     }
 

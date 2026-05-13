@@ -45,6 +45,7 @@ export interface Article {
   user_id: number
   title: string
   content: string
+  content_type: 'markdown' | 'html'
   cover_image?: string
   summary?: string
   tags?: string[]
@@ -60,6 +61,7 @@ export interface Article {
 export interface ArticleCreate {
   title: string
   content: string
+  content_type?: 'markdown' | 'html'
   cover_image?: string
   summary?: string
   tags?: string[]
@@ -68,6 +70,7 @@ export interface ArticleCreate {
 export interface ArticleUpdate {
   title?: string
   content?: string
+  content_type?: 'markdown' | 'html'
   cover_image?: string
   summary?: string
   tags?: string[]
@@ -77,6 +80,7 @@ export interface ArticlePublic {
   id: number
   title: string
   content: string
+  content_type: 'markdown' | 'html'
   cover_image?: string
   summary?: string
   tags?: string[]
